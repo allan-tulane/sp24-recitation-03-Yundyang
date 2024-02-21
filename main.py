@@ -50,8 +50,31 @@ def quadratic_multiply(x, y):
 
 def _quadratic_multiply(x, y):
     ### TODO
-    pass
-    ###
+  if x.decimal_val <= 1 and y.decimal_val <= 1:
+    return BinaryNumber(x.decimal_val * y.decimal_val)
+
+  x.binary_vec, y.binary_vec = pad(x.binary_vec, y.binary_vec)
+
+  n = max(len(x.binary_vec), len(y.binary_vec))
+
+  xL, xR = split_number(x.binary_vec)
+  yL, yR = split_number(y.binary_vec)
+
+  product_LL = _quadratic_multiply(xL, yL)
+  product_RR = _quadratic_multiply(xR, yR)
+  product_LR = _quadratic_multiply(xL, yR)
+  product_RL = _quadratic_multiply(xR, yL)
+
+  product_high = bit_shift(product_LL, n)  
+  product_mid = bit_shift(BinaryNumber(product_LR.decimal_val + 
+  product_RL.decimal_val), n//2) 
+  product_low = product_RR 
+
+  final_product = product_high.decimal_val + product_mid.decimal_val + product_low.decimal_val
+
+  return BinaryNumber(final_product)
+
+
 
 
     
